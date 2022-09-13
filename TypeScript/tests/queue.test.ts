@@ -23,7 +23,7 @@ test("test peek: newly created list should peek null", () => {
     expect(createQueue().peek()).toBeNull()
 })
 
-test("test peek: queue with 2 element should peek the last one", () => {
+test("test peek: queue with 2 element should peek the one that was most recently added", () => {
     const queue = createQueue()
     queue.enqueue(2)
     queue.enqueue(3)
