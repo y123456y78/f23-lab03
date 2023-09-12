@@ -26,6 +26,8 @@ public class IntQueueTest {
 
     private IntQueue mQueue;
     private List<Integer> testList;
+    private List<Integer> largeTestList;
+
 
     /**
      * Called before each test.
@@ -36,6 +38,7 @@ public class IntQueueTest {
         mQueue = new ArrayIntQueue();
 
         testList = new ArrayList<>(List.of(1, 2, 3));
+        largeTestList = new ArrayList<>(List.of(1, 2, 3,4,5,6,7,8,9,10,11));
     }
 
     @Test
@@ -71,12 +74,44 @@ public class IntQueueTest {
     }
 
     @Test
+    public void testEnsureCapacity() {
+        testList.forEach(n -> mQueue.enqueue(n));
+        for (int i = 0; i < testList.size(); i++) {
+            assertEquals(testList.get(i), mQueue.dequeue());
+            assertEquals(testList.size() - i - 1, mQueue.size());
+        }
+
+        for (int i = 0; i < largeTestList.size(); i++) {
+            mQueue.enqueue(largeTestList.get(i));
+            assertEquals(largeTestList.get(0), mQueue.peek());
+            assertEquals(i + 1, mQueue.size());
+        }
+    }
+
+    @Test
     public void testDequeue() {
         testList.forEach(n -> mQueue.enqueue(n));
         for (int i = 0; i < testList.size(); i++) {
             assertEquals(testList.get(i), mQueue.dequeue());
             assertEquals(testList.size() - i - 1, mQueue.size());
         }
+    }
+
+
+    @Test
+    public void testDequeueEmptyQueue() {
+        assertNull(mQueue.dequeue());
+    }
+
+
+    @Test
+    public void testClear() {
+        for (int i = 0; i < testList.size(); i++) {
+            mQueue.enqueue(testList.get(i));
+        }
+        mQueue.clear();
+        assertTrue(mQueue.isEmpty());
+        assertNull(mQueue.peek());
     }
 
     @Test
