@@ -5,8 +5,13 @@ import { newLinkedListIntQueue } from "../src/linkedlistqueue.js";
 let createQueue = newLinkedListIntQueue
 // let createQueue = newArrayIntQueue
 
-// TODOs:
-// write more test cases to test dequeue and clear functions.
+test("test clear: list should be empty after clear", () => {
+    const queue = createQueue()
+    queue.enqueue(2)
+    queue.clear()
+    expect(queue.isEmpty()).toBeTruthy()
+})
+
 
 test("test isEmpty: newly created list should be empty", () => {
     expect(createQueue().isEmpty()).toBeTruthy()
@@ -36,6 +41,18 @@ test.each(param)("test enqueue: enqueued number %d is correct", (nr) => {
     const queue = createQueue()
     queue.enqueue(nr)
     expect(queue.peek()).toBe(nr)
+})
+
+// parameterized test, apply to each value of the parameter
+test.each(param)("test dequeue: dequeued number %d is correct", (nr) => {
+    const queue = createQueue()
+    queue.enqueue(nr)
+    expect(queue.dequeue()).toBe(nr)
+})
+
+test("test dequeue empty: dequeue empty queue should return null", () => {
+    const queue = createQueue()
+    expect(queue.dequeue()).toBeNull()
 })
 
 // can nest tests with shared descriptions for better readability
